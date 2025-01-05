@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model College {
+  id      Int    @id @default(autoincrement())
+  name    String
+  score   Int    // Add validation in the database or application logic for range 1-1000
+  cityId  Int
+  stateId Int
+
+  @@index([score]) // Optimized for sorting API responses by score
+}
+
+model CollegePlacement {
+  id               Int     @id @default(autoincrement())
+  collegeId        Int
+  year             Int
+  highestPlacement Float
+  averagePlacement Float
+  medianPlacement  Float
+  placementRate    Float
+}
+
+model CollegeWiseCourse {
+  id            Int    @id @default(autoincrement())
+  collegeId     Int
+  courseName    String
+  courseDuration String
+  courseFee     Float
+}
+
+model City {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model State {
+  id   Int    @id @default(autoincrement())
+  name String
+}
